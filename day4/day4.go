@@ -51,7 +51,14 @@ func main() {
 		}
 	}
 
-	part1(drawnNums, boards)
+	// making duplicate so there are fresh board copies in each part
+	uneditedBoards := make([][]int, len(boards))
+	for i := range boards {
+		uneditedBoards[i] = make([]int, len(boards[i]))
+		copy(uneditedBoards[i], boards[i])
+	}
+
+	part1(drawnNums, uneditedBoards)
 	part2(drawnNums, boards)
 }
 
