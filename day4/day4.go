@@ -58,24 +58,24 @@ func main() {
 		copy(uneditedBoards[i], boards[i])
 	}
 
-	part1(drawnNums, uneditedBoards)
-	part2(drawnNums, boards)
+	fmt.Println("Part 1:", part1(drawnNums, boards))
+	fmt.Println("Part 2:", part2(drawnNums, uneditedBoards))
 }
 
-func part1(drawnNums []int, boards [][]int) {
-winnerLoop:
+func part1(drawnNums []int, boards [][]int) int {
 	for _, num := range drawnNums {
 		for _, board := range boards {
 			markBoard(board, num)
 			if checkWin(board) {
-				fmt.Println("Part 1:", getScore(board)*num)
-				break winnerLoop
+				return getScore(board) * num
 			}
 		}
 	}
+
+	return 0
 }
 
-func part2(drawnNums []int, boards [][]int) {
+func part2(drawnNums []int, boards [][]int) int {
 	lastDeletedScore := 0
 
 	for _, num := range drawnNums {
@@ -99,7 +99,7 @@ func part2(drawnNums []int, boards [][]int) {
 		boards = boards[:k]
 	}
 
-	fmt.Println("Part 2:", lastDeletedScore)
+	return lastDeletedScore
 }
 
 func markBoard(board []int, num int) {
