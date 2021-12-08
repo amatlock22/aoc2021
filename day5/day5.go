@@ -50,11 +50,7 @@ func part2() int {
 		} else if y1 == y2 {
 			horizontalLine(diagram, y1, x1, x2)
 		} else {
-			if (x1 > x2 && y1 > y2) || (x1 < x2 && y1 < y2) { // both are increasing or decreasing
-				diagonalBothIncOrDecLine(diagram, x1, x2, y1, y2)
-			} else { // one increases while the other decreases
-				diagonalOneIncOneDecLine(diagram, x1, x2, y1, y2)
-			}
+			diagonalLine(diagram, x1, x2, y1, y2)
 		}
 	}
 
@@ -92,23 +88,18 @@ func horizontalLine(diagram [][]int, y, x1, x2 int) {
 	}
 }
 
-func diagonalBothIncOrDecLine(diagram [][]int, x1, x2, y1, y2 int) {
+func diagonalLine(diagram [][]int, x1, x2, y1, y2 int) {
 	diffX := diff(x1, x2)
 	minX := min(x1, x2)
-	minY := min(y1, y2)
 
-	for i, j := minX, minY; i <= minX+diffX; i, j = i+1, j+1 {
-		diagram[j][i]++
-	}
-}
-
-func diagonalOneIncOneDecLine(diagram [][]int, x1, x2, y1, y2 int) {
-	diffX := diff(x1, x2)
-	minX := min(x1, x2)
-	maxY := max(y1, y2)
-
-	for i, j := minX, maxY; i <= minX+diffX; i, j = i+1, j-1 {
-		diagram[j][i]++
+	if (x1 > x2 && y1 > y2) || (x1 < x2 && y1 < y2) { // both are increasing or decreasing
+		for i, j := minX, min(y1, y2); i <= minX+diffX; i, j = i+1, j+1 {
+			diagram[j][i]++
+		}
+	} else { // only one increases, the other decreases
+		for i, j := minX, max(y1, y2); i <= minX+diffX; i, j = i+1, j-1 {
+			diagram[j][i]++
+		}
 	}
 }
 
